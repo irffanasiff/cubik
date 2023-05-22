@@ -15,14 +15,16 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Skeleton,
+  SkeletonCircle,
   Stack,
-  useDisclosure,
   VStack,
+  useDisclosure,
 } from '@chakra-ui/react';
 import {
   ProjectJoinRoundStatus,
-  ProjectsModel,
   ProjectVerifyStatus,
+  ProjectsModel,
 } from '@prisma/client';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
@@ -36,12 +38,12 @@ import GetFormattedLink from '~/components/HOC/GetLink';
 import { projectWithFundingRoundType } from '~/types/project';
 import { getDomain } from '~/utils/getDomain';
 import { ProjectStatus } from '~/utils/getProjectStatus';
-import { ProjectSocials } from '../../projects/project-details/project-interactions/ProjectInteractions';
 import { ProjectsDetailedDescription } from '../../projects/project-details/ProjectDetailedDescription';
 import { ProjectLink } from '../../projects/project-details/ProjectDetailsHeader';
+import { ProjectSocials } from '../../projects/project-details/project-interactions/ProjectInteractions';
+import ProjectStatusBanner from './ProjectStatusBanner';
 import ApplyForGrant from './project-admin-dashboard/ProjectAdminDetailsDrawer/ApplyForGrant';
 import EditProjectDetails from './project-admin-dashboard/ProjectAdminDetailsDrawer/EditProjectDetails';
-import ProjectStatusBanner from './ProjectStatusBanner';
 
 export enum drawerBodyViewEnum {
   PROJECT_DETAILS = 'project_details',
@@ -325,9 +327,11 @@ const ProjectDetails = ({
 };
 
 const ProjectHeader = ({
+  isLoading,
   activeProject,
   project,
 }: {
+  isLoading: boolean;
   activeProject?: string;
   project: projectWithFundingRoundType;
 }) => {
@@ -364,12 +368,20 @@ const ProjectHeader = ({
           gap={{ base: '8px', sm: '12px', md: '16px' }}
         >
           <Center>
-            <Avatar
-              src={project.logo}
-              name={project.name}
+            <SkeletonCircle
+              isLoaded={!isLoading}
+              fadeDuration={2}
+              opacity={isLoading ? '0.5' : '1'}
               width={{ base: '36px', sm: '48px', md: '52px' }}
               height={{ base: '36px', sm: '48px', md: '52px' }}
-            />
+            >
+              <Avatar
+                src={project.logo}
+                name={project.name}
+                width={{ base: '36px', sm: '48px', md: '52px' }}
+                height={{ base: '36px', sm: '48px', md: '52px' }}
+              />
+            </SkeletonCircle>
           </Center>
           <VStack
             alignItems={'start'}
@@ -377,38 +389,45 @@ const ProjectHeader = ({
             justify="center"
             spacing={{ base: '2px', sm: '4px', md: '6px' }}
           >
-            <Box
-              as="p"
-              textStyle={{ base: 'title4', sm: 'title3', md: 'title2' }}
-              noOfLines={1}
-              textAlign="left"
-              color="white"
+            <Skeleton
+              isLoaded={!isLoading}
+              fadeDuration={3}
+              opacity={isLoading ? '0.5' : '1'}
             >
-              {project.name}
-            </Box>
-            <GetFormattedLink link={project.project_link} />
+              <Box
+                as="p"
+                textStyle={{ base: 'title4', sm: 'title3', md: 'title2' }}
+                noOfLines={1}
+                textAlign="left"
+                color="white"
+              >
+                {project.name}
+              </Box>
+            </Skeleton>
+            <Skeleton
+              isLoaded={!isLoading}
+              fadeDuration={2}
+              opacity={isLoading ? '0.3' : '1'}
+            >
+              <GetFormattedLink link={project.project_link} />
+            </Skeleton>
           </VStack>
         </Stack>
         <Center justifyContent={'end'}>
-          <Link
-            href={`/${data?.user.username}/?project=${project.id}`}
-            style={{
-              color: '#A8F0E6',
-              backgroundColor: 'transparent',
-              height: 'full',
-              width: 'full',
-              padding: '14px 44px 14px 44px',
-              border: '1px solid #A8F0E6',
-              fontSize: '15px',
-              whiteSpace: 'nowrap',
-              fontWeight: '600',
-              lineHeight: '22px',
-              borderRadius: '12px',
-              transition: 'all 0.6s',
-            }}
+          <Skeleton
+            isLoaded={!isLoading}
+            fadeDuration={3}
+            opacity={isLoading ? '0.3' : '1'}
           >
-            View Details
-          </Link>
+            <Button
+              variant={'cubikOutlined'}
+              size="cubikMedium"
+              as={Link}
+              href={`/${data?.user.username}/?project=${project.id}`}
+            >
+              View Details
+            </Button>
+          </Skeleton>
         </Center>
         <Drawer
           maxW="40rem"

@@ -7,6 +7,7 @@ import { ImCheckboxChecked } from 'react-icons/im';
 import { MdVerified } from 'react-icons/md';
 import { RxLapTimer } from 'react-icons/rx';
 import { TbListSearch } from 'react-icons/tb';
+import RoundStatus from '~/components/common/dates/Status';
 
 const ProjectStatusBanner = ({
   status,
@@ -15,6 +16,8 @@ const ProjectStatusBanner = ({
   status: string;
   roundName?: string;
 }) => {
+  // check if projects is live and receiving donation in a live round
+  console.log('status and round name', status, roundName);
   switch (status) {
     case ProjectVerifyStatus.REVIEW:
       return (
@@ -146,14 +149,7 @@ const ProjectStatusBanner = ({
           backgroundColor={'#31F57908'}
         >
           <HStack rounded="full" bg="surface.green.3" p="6px 11px 6px 9px">
-            <Center background="#31F57930" rounded="full" w="1rem" h="1rem">
-              <Center
-                background="surface.green.2"
-                rounded="full"
-                w="0.5rem"
-                h="0.5rem"
-              />
-            </Center>
+            <RoundStatus startDate={undefined} endDate={undefined} />
             <Box
               as="p"
               noOfLines={1}
@@ -225,8 +221,8 @@ const ProjectStatusBanner = ({
             textStyle={{ base: 'body6', md: 'body5' }}
             color="#E6D6FF"
           >
-            Congratulations your project has been selected to participate in
-            Round Name
+            Congratulations your project has been selected to participate in{' '}
+            <b>{roundName} Round.</b>
           </Box>
         </Flex>
       );
