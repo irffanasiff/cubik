@@ -22,7 +22,7 @@ import { FiChevronRight } from 'react-icons/fi';
 import RoundStatus from '~/components/common/dates/Status';
 import SelectProjectToApplyForGrant from '~/components/pages/grants/SelectProjectToApplyForGrant';
 import { formatNumberWithK } from '~/utils/formatWithK';
-import { checkRoundStatus, GRANT_STATUS } from '~/utils/round/RoundStatus';
+import { checkRoundStatus, GRANT_STATUS } from '~/utils/round/checkRoundStatus';
 import { trpc } from '~/utils/trpc';
 
 // todo make upcoming live grants separate
