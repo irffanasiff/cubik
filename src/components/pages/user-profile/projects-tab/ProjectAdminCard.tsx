@@ -51,8 +51,22 @@ const ProjectAdminCard = ({
       w="100%"
       border={'none'}
     >
-      <Skeleton isLoaded={!isLoading}>
+      <Skeleton
+        isLoaded={!isLoading}
+        fadeDuration={2}
+        opacity={isLoading ? 0.5 : 1}
+      >
         <ProjectStatusBanner
+          startTime={
+            ProjectStatus({
+              projectData: projectData as projectWithFundingRoundType,
+            })?.startTime || undefined
+          }
+          endtime={
+            ProjectStatus({
+              projectData: projectData as projectWithFundingRoundType,
+            })?.endtime || undefined
+          }
           status={
             ProjectStatus({
               projectData: projectData as projectWithFundingRoundType,
@@ -73,7 +87,7 @@ const ProjectAdminCard = ({
         <ProjectHeader
           isLoading={isLoading}
           activeProject={activeProject}
-          project={projectData as projectWithFundingRoundType}
+          project={projectData}
         />
       </CardHeader>
       {ProjectStatus({
