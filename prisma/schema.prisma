@@ -126,11 +126,11 @@ model ProjectJoinRound {
   projectId     String
   tx            String                 @db.VarChar(500)
   roundId       String
+  amountRaise   Float?                 @default(0)
+  contributions Int                    @default(0)
   status        ProjectJoinRoundStatus @default(PENDING)
   createdAt     DateTime               @default(now())
   updatedAt     DateTime               @updatedAt
-  amountRaise   Float?                 @default(0)
-  contributions Int                    @default(0)
   project       ProjectsModel          @relation(fields: [projectId], references: [id])
   fundingRound  Round                  @relation(fields: [roundId], references: [id])
 
@@ -148,6 +148,7 @@ model Round {
   userId            String
   description       String             @default(dbgenerated("(_utf8mb4\\'\\')")) @db.Text
   endtime           DateTime           @default(now())
+  contributions     Float              @default(0)
   startTime         DateTime           @default(now())
   tx                String             @db.VarChar(500)
   createdAt         DateTime           @default(now())

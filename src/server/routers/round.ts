@@ -27,6 +27,7 @@ export const roundRouter = router({
           id: uuid(),
           active: true,
           userId: ctx.session?.user?.id,
+          contributions: 0,
           matchedPool: input.matchingPool,
           notionPage: input.notionPage,
           projectCount: input.projectCount,
